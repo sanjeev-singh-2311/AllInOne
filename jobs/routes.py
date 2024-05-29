@@ -1,0 +1,31 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from admin.dependencies import get_db
+from jobs.crud import get_all_entries, add_new_entry
+from jobs.models import Jobs
+from jobs.schema import JobCreate
+
+jobs_router = APIRouter(tags=["Jobs"])
+
+
+@jobs_router.get("/")
+async def get_all_jobs(db : Session = Depends(get_db)):
+    jobs : list[Jobs] = get_all_entries(db) 
+
+    return jobs
+
+
+@jobs_router.post("/")
+async def post_new_job(entry : JobCreate, db : Session = Depends(get_db)):
+    # pass
+    return add_new_entry(db, entry) 
+
+
+@jobs_router.put("/")
+async def update_job_detail():
+    pass
+
+
+@jobs_router.delete("/")
+async def delete_job():
+    pass
