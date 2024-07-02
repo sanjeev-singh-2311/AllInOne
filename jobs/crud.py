@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-from jobs.models import Jobs, TimeSlots
+from jobs.models import Jobs, TimeSlots, JobLocations
 from jobs.schema import Job, JobCreate
 
 def get_all_entries(db : Session):
@@ -11,8 +11,11 @@ def get_all_entries(db : Session):
     result = []
     for entries in job_models:
         time_list : list[TimeSlots] = db.query(TimeSlots).where(TimeSlots.job_id == entries.id).all()
+        locations : list[JobLocations] = db.query(JobLocations).where(JobLocations.job_id == entries.id).all()
         print(time_list)
-        result.append(Job(**entries.__dict__, time_slots=[i.time_slot for i in time_list], rating=1, availabe_time_slots=[]))
+        result.append(Job(**entries.__dict__, time_slots=[i.time_slot for i in time_list], 
+                          rating=1, availabe_time_slots=[], 
+                          locations=[i.location for i in locations]))
 
     return result
 

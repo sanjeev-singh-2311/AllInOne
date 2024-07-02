@@ -9,6 +9,7 @@ class Jobs(Base):
     name = Column(String)
     experience = Column(String)
     expertise = Column(String)
+    rating = Column(Float)
 
     cost_lower = Column(Float)
     cost_upper = Column(Float)
@@ -23,5 +24,12 @@ class TimeSlots(Base):
     slot_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
     job_id = Column(Integer, ForeignKey('Jobs.id'))
     time_slot = Column(DateTime)
+
+class JobLocations(Base):
+    __tablename__ = "JobLocations"
+
+    location_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
+    job_id = Column(Integer, ForeignKey('Jobs.id'))
+    location = Column(String)
 
 Base.metadata.create_all(bind=engine)

@@ -14,6 +14,10 @@ async def get_all_jobs(db : Session = Depends(get_db)):
 
     return jobs
 
+@jobs_router.get("/filters")
+async def get_jobs_by_filter():
+    pass
+
 
 @jobs_router.post("/")
 async def post_new_job(entry : JobCreate, db : Session = Depends(get_db)):
@@ -21,11 +25,11 @@ async def post_new_job(entry : JobCreate, db : Session = Depends(get_db)):
     return add_new_entry(db, entry) 
 
 
-@jobs_router.put("/")
-async def update_job_detail():
+@jobs_router.put("/{job_id}")
+async def update_job_detail(job_id : int):
     pass
 
 
-@jobs_router.delete("/")
-async def delete_job():
+@jobs_router.delete("/{job_id}")
+async def delete_job(job_id):
     pass

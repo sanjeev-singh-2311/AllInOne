@@ -23,6 +23,9 @@ class JobInfo(JobCreate):
     availabe_time_slots: List[datetime] = Field(
         description="Available Time slots with date and time"
     )
+    locations: List[str] = Field(
+        description="Locations where the jobs are available"
+    )
 
 
 class Job(JobInfo):
