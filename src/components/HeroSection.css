@@ -1,0 +1,41 @@
+@keyframes upDown {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .drill {
+    animation: upDown 2s infinite ease-in-out;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+  }
+  
+  .typing-animation {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid orange;
+    animation: typing 4s steps(40, end), blink-caret .75s step-end 1;
+    display: inline-block;
+    font-size: 2.5rem; /* Reduced font size */
+  }
+  
+  .typing-animation::after {
+    content: '';
+    animation: none;
+  }
+  
+  button {
+    transition: transform 0.3s;
+  }
+  
