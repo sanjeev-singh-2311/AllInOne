@@ -9,22 +9,22 @@ class JobCreate(BaseModel):
     experience: str = Field(description="Experience -> 1Y, 3Y, 10Y+ etc")
     expertise: str = Field(description="The type of job expertise ")
 
+    rating: float = Field(description="Rating out of 5", gt=0.0, lt=5.0)
+
     cost_lower: float = Field(description="The lower limit of charges", gt=0)
     cost_upper: float = Field(description="The upper limit of charges", gt=0)
 
     time_slots: List[datetime] = Field(
         description="All the Time slots with date and time"
     )
+    job_location: List[str] = Field(
+        description="Locations where the jobs are available"
+    )
 
 
 class JobInfo(JobCreate):
-    rating: float = Field(description="Rating out of 5", gt=0.0, lt=5.0)
-
     availabe_time_slots: List[datetime] = Field(
         description="Available Time slots with date and time"
-    )
-    locations: List[str] = Field(
-        description="Locations where the jobs are available"
     )
 
 
