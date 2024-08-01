@@ -15,8 +15,8 @@ class Jobs(Base):
     cost_lower = Column(Float)
     cost_upper = Column(Float)
 
-    time_slots = relationship("TimeSlots", back_populates="job")
-    job_location = relationship("JobLocations", back_populates="job")
+    time_slots = relationship("TimeSlots", back_populates="job", cascade="all,delete-orphan")
+    job_location = relationship("JobLocations", back_populates="job", cascade="all,delete-orphan")
 
     # TODO -> fill the rest
 
