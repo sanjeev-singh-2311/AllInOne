@@ -5,19 +5,17 @@ from jobs.models import Jobs, TimeSlots, JobLocations
 from jobs.schema import Job, JobCreate
 
 def get_all_entries(db : Session):
-    try:
-        # job_models : list[Jobs] = db.query(Jobs).options(
-        #     joinedload(Jobs.time_slots),
-        #     joinedload(Jobs.job_location)
-        # ).all()
-        job_models : list[Jobs] = db.query(Jobs).all()
-    except SQLAlchemyError as e:
-        return {"message" : "Transaction failed"}
-    if not job_models: return []
-
-    print(job_models[0].__dict__)
-    
     result : list[Job] = []
+
+    try:
+        job_models : list[Jobs] = db.query(Jobs).options(
+            joinedload(Jobs.time_slots),
+            joinedload(Jobs.job_location)
+        ).all()
+    except SQLAlchemyError as e:
+        print(e)
+        return result
+    if not job_models: return result
 
     for entry in job_models:
         time_slot_filter = [ts.time_slot for ts in entry.time_slots]
