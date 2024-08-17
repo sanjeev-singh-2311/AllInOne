@@ -4,6 +4,10 @@ from sqlalchemy.orm import Session, joinedload
 from jobs.models import Jobs, TimeSlots, JobLocations
 from jobs.schema import Job, JobCreate
 
+'''
+    Database operation to get all the entries from along with their
+    timeslots and job locations
+'''
 def get_all_entries(db : Session):
     result : list[Job] = []
 
@@ -32,6 +36,10 @@ def get_all_entries(db : Session):
 
     return result
 
+'''
+    Database operation to add a new entry in all
+    three tables using a single JobCreate model
+'''
 def add_new_entry(db : Session, data : JobCreate):
     new_data : Jobs = Jobs(**data.model_dump(exclude={'time_slots', 'job_location'}))
 
@@ -54,3 +62,9 @@ def add_new_entry(db : Session, data : JobCreate):
         db.rollback()
         print(e)
         return {'message' : 'Couldn\'t add data'}
+
+'''
+    Database operation to update a certain job's details if
+    it exists in the table
+'''
+
