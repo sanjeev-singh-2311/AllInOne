@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, joinedload
 from jobs.models import Jobs, TimeSlots, JobLocations
-from jobs.schema import Job, JobCreate
+from jobs.schema import Job, JobCreate, JobInfo
 
 '''
     Database operation to get all the entries from along with their
@@ -67,4 +67,21 @@ def add_new_entry(db : Session, data : JobCreate):
     Database operation to update a certain job's details if
     it exists in the table
 '''
+def update_entry(db : Session, data : Job):
+
+    try:
+        job_models : Jobs = db.query(Jobs).options(
+            joinedload(Jobs.time_slots),
+            joinedload(Jobs.job_location)
+        ).where(Jobs.id == data.id).first()
+    except SQLAlchemyError as e:
+        print(e)
+        db.rollback()
+        return {'message' : 'Couldn\'t update'}
+
+    job_models = Jobs(**data.model_dump())
+    db.commit()
+
+    return job_models
+
 
